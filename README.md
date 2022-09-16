@@ -10,3 +10,9 @@ I will add User Interface soon in this script.
 - Edit the .env file
 - Cisco and Juniper demo configuration files are already in the project within configuration_files directory
 - npm run start
+
+# Technologies Used:
+- JavaScript
+- NodeJS
+- MongoDB
+- ExpressJS
