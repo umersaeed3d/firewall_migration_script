@@ -1,0 +1,28 @@
+crypto ikev2 policy 10 prf sha256 
+crypto ikev2 group 2 
+crypto ikev2 integrity sha256 
+crypto ikev2 encryption aes-256 
+crypto ikev2 lifetime-seconds 28800 
+
+
+crypto ipsec ikev2 ipsec-proposal our-ipsec-proposal protocol esp 
+crypto ipsec ikev2 ipsec-proposal our-ipsec-proposal integrity sha-256 
+crypto ipsec ikev2 ipsec-proposal our-ipsec-proposal encryption aes-256 
+
+object-group network HQ-Network network-object 10.10.10.0 255.255.255.0
+   
+
+crypto map 1 match address ACL-NAME 
+crypto map our-ipsec-vpn-1 1 set peer gateway-ip 
+crypto map our-ipsec-vpn-1 set ikev2 ipsec-proposal our-ipsec-proposal 
+crypto map our-ipsec-vpn-1 1 set pfs group2
+crypto map our-ipsec-vpn-1 interface outside
+crypto ikev2 enable outside
+
+tunnel-group ip type ipsec-l2l 
+tunnel-group ip ipsec-attributes 
+tunnel-group ip ikev2 remote-authentication pre-shared-key letsconfig  
+
+
+
+

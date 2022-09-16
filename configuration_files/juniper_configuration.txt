@@ -1,0 +1,25 @@
+set security ike proposal our-ike-proposal authentication-method pre-shared-keys
+set security ike proposal our-ike-proposal dh-group group 5
+set security ike proposal our-ike-proposal authentication-algorithm sha-256
+set security ike proposal our-ike-proposal encryption-algorithm 3des-cbc
+set security ike proposal our-ike-proposal lifetime-seconds 86400
+
+set security ike policy our-ike-policy mode main
+set security ike policy our-ike-policy proposals our-ike-proposal
+set security ike policy our-ike-policy pre-shared-key ascii-text letsconfig
+
+set security ike gateway our-ike-gateway ike-policy our-ike-policy
+set security ike gateway our-ike-gateway address 2.2.2.2
+set security ike gateway our-ike-gateway external-interface ge-0/0/0.0
+
+set security ipsec proposal our-ipsec-proposal protocol esp
+set security ipsec proposal our-ipsec-proposal authentication-algorithm hmac-sha1-96
+set security ipsec proposal our-ipsec-proposal encryption-algorithm 3des-cbc
+set security ipsec proposal our-ipsec-proposal lifetime-seconds 28800
+
+set security ipsec policy our-ipsec-policy proposals our-ipsec-proposal
+
+set security ipsec vpn our-ipsec-vpn-1 ike gateway our-ike-gateway
+set security ipsec vpn our-ipsec-vpn-1 ike ipsec-policy our-ipsec-policy
+set security ipsec vpn our-ipsec-vpn-1 establish-tunnels immediately
+

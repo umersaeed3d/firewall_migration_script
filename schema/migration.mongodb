@@ -1,0 +1,33 @@
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// Select the database to use.
+use('firewall_migration');
+
+// The drop() command destroys all data from a collection.
+// Make sure you run it against the correct database and collection.
+db.mappings.drop();
+
+// Insert a few documents into the mapping collection.
+db.mappings.insertMany([
+  { '_id': 1, 'cisco': 'crypto ikev2 policy 10 prf ?hash', 'juniper': 'set security ike proposal our-ike-proposal authentication-method ?auth_method', 'params': ['hash','auth_method'] },
+  { '_id': 2, 'cisco': 'crypto ikev2 group ?group', 'juniper': 'set security ike proposal our-ike-proposal dh-group group ?group', 'params': ['group'] },
+  { '_id': 3, 'cisco': 'crypto ikev2 integrity ?hash', 'juniper': 'set security ike proposal our-ike-proposal authentication-algorithm ?hash', 'params': ['hash'] },
+  { '_id': 4, 'cisco': 'crypto ikev2 encryption ?encryption', 'juniper': 'set security ike proposal our-ike-proposal encryption-algorithm ?encryption', 'params': ['encryption'] },
+  { '_id': 5, 'cisco': 'crypto ikev2 lifetime-seconds ?time', 'juniper': 'set security ike proposal our-ike-proposal lifetime-seconds ?time', 'params': ['time'] },
+  { '_id': 6, 'cisco': 'tunnel-group ip type ?mode', 'juniper': 'set security ike policy our-ike-policy mode ?mode', 'params': ['mode'] },
+  { '_id': 7, 'cisco': 'tunnel-group ip ipsec-attributes', 'juniper': 'set security ike policy our-ike-policy proposals our-ike-proposal', 'params': [] },
+  { '_id': 8, 'cisco': 'tunnel-group ip ikev2 remote-authentication ?auth_method ?key', 'juniper': 'set security ike policy our-ike-policy ?auth_method ascii-text ?key', 'params': ['auth_method','key'] },
+  { '_id': 9, 'cisco': 'object-group network ?network_name', 'juniper': 'set security ike gateway our-ike-gateway ike-policy our-ike-policy', 'params': ['key','network_name'] },
+  { '_id': 10, 'cisco': 'object-group network-object ?ip', 'juniper': 'set security ike gateway our-ike-gateway address ?ip', 'params': ['ip'] },
+  { '_id': 11, 'cisco': 'object-group network-object ?interface', 'juniper': 'set security ike gateway our-ike-gateway external-interface ?interface', 'params': ['interface'] },
+  { '_id': 12, 'cisco': 'crypto ipsec ikev2 ipsec-proposal our-ipsec-proposal protocol ?protocol', 'juniper': 'set security ipsec proposal our-ipsec-proposal protocol ?protocol', 'params': ['protocol'] },
+  { '_id': 13, 'cisco': 'crypto ipsec ikev2 ipsec-proposal our-ipsec-proposal integrity ?auth_algo', 'juniper': 'set security ipsec proposal our-ipsec-proposal authentication-algorithm ?auth_algo', 'params': ['auth_algo'] },
+  { '_id': 14, 'cisco': 'crypto ipsec ikev2 ipsec-proposal our-ipsec-proposal encryption ?encryption', 'juniper': 'set security ipsec proposal our-ipsec-proposal encryption-algorithm ?encryption \nset security ipsec proposal our-ipsec-proposal lifetime-seconds ?time', 'params': ['encryption','time'] },
+ 
+]);
+
+
+
