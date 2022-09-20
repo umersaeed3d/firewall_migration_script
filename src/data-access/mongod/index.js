@@ -42,6 +42,13 @@ let conversion = () => {
   });
 };
 
+/*
+objective: function iterating lines from file
+Input: source vendor file name
+Output: target vendor file name along with status code 201
+description: Process follows such as pick a line -> find its mapped line from mongoDB -> extract the parameters -> replace the parameter -> return output
+*/
+
 async function processLineByLine(filename) {
 
     const fileStream = fs.createReadStream(__dirname +'./../../../configuration_files/'+filename);
@@ -69,10 +76,19 @@ async function processLineByLine(filename) {
     return {'status_code':201,'output_file_name': output_file_name};
 }
 
-async function mapLine(source,target, line){
+/*
+objective: function to find the mapped line with respect to source vendor
+Input: source vendor name, target vendor name, input file line
+Output: null
+description: find source vendor mapped line from mongoDB -> filter out the most specific line -> extract the parameters 
+*/
+
+async function mapLine(source, target, line){
     
+    // Here slicing 0-19 means the pickable keywords for matching
     var data = await db.find({[source]: new RegExp(line.slice(0,19),'i')}).toArray();
     var mappedLine = data[0];
+    
     if(data.length > 1){
       
        mappedLine = filterTheMostSpecificObject(data,line,source);
@@ -85,13 +101,21 @@ async function mapLine(source,target, line){
     }
     
 }
-  
-function filterTheMostSpecificObject(object,line,source){
+
+/*
+objective: function to find filter out the most specific object from the multiple result
+Input: object list, input file line, source vendor name
+Output: specific object
+description: Filter out the most specific object from list 
+*/
+
+function filterTheMostSpecificObject(object, line, source){
 
     if(source=='cisco')
       sliceIndex = 3;
     else
       sliceIndex = 2
+    
     splitStr = line.split(' ');
     lastKeyword = splitStr[splitStr.length - sliceIndex];
     
@@ -109,6 +133,12 @@ function filterTheMostSpecificObject(object,line,source){
         }
     }
 }
+
+/*
+objective: function to extract the parameter 
+Input: source input line, source vendor db line
+Output: boolen : has parameter or not. 
+*/
 
 function extractParams(source_line,object_line){
 
@@ -136,6 +166,13 @@ function extractParams(source_line,object_line){
     return hasKeyValue;
     
 }  
+
+/*
+objective: function to replace the parameters in mapped object line from DB
+Input: null
+Output: mapped lines list
+description: replace the paramters "?" in mapped lines
+*/
 
 function replaceParams(){
   
